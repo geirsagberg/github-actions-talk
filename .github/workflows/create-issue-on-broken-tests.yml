@@ -22,6 +22,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "::group::Creating issue"
-          echo "::set-output name=issue_number::$(gh issue create --title "Broken tests" --body "The tests failed. Please fix them.")"
-          echo "::endgroup::"
+          gh issue create --title "Broken tests" \
+            --body "The tests failed. Please fix them."
