@@ -1,0 +1,27 @@
+name: Create issue on broken tests
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  create-issue-on-broken-tests:
+    name: Create issue on broken tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - run: npm install
+
+      - run: npm run test
+      
+      - name: Create issue if failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "::group::Creating issue"
+          echo "::set-output name=issue_number::$(gh issue create --title "Broken tests" --body "The tests failed. Please fix them.")"
+          echo "::endgroup::"
