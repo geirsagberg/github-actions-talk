@@ -1,0 +1,24 @@
+name: Hello world
+inputs:
+  name:
+    type: string
+    description: The name to say hello to.
+    default: World
+
+runs:
+  using: composite
+  steps:
+    - name: Say hello from Docker
+      uses: ./hello-docker
+      with:
+        name: ${{ inputs.name }}
+    
+    - name: Say hello from JS
+      uses: ./hello-world
+      with:
+        name: ${{ inputs.name }}
+
+    - name: Say hello from shell
+      shell: bash
+      run: |
+        echo "Hello ${{ inputs.name }} from shell!"
